@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+
+#define BUFSIZE 100
+
+int main(int argc, char *argv[])
+{
+	int fd;
+	int wcount;
+	char wbuf[BUFSIZE];
+	char rbuf[BUFSIZE];
+	printf("argv[0]=%s\n",argv[0]);
+	printf("argv[1]=%s\n",argv[1]);
+
+	fd = open(argv[1],O_RDWR | O_CREAT | O_TRUNC,\
+		S_IRWXU | S_IWGRP | S_IRGRP | S_IROTH);
+	
+	if(fd==-1)
+	{
+		printf("file error!!\n");
+		return -1;
+	}
+
+	sprintf(wbuf,"Do not count the before they hatch.");
+	printf("%s\n",wbuf);
+
+	wcount = write(fd, wbuf, strlen(wbuf));
+	if(wcount<1)
+	{
+		printf("file write error!!\n");
+		return -1;
+	}
+	
+
+	close(fd);
+}
