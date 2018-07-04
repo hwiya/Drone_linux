@@ -10,7 +10,7 @@
 int main(int argc, char *argv[])
 {
 	int fd;
-	int wcount;
+	int count;
 	char wbuf[BUFSIZE];
 	char rbuf[BUFSIZE];
 	printf("argv[0]=%s\n",argv[0]);
@@ -28,13 +28,22 @@ int main(int argc, char *argv[])
 	sprintf(wbuf,"Do not count the before they hatch.");
 	printf("%s\n",wbuf);
 
-	wcount = write(fd, wbuf, strlen(wbuf));
-	if(wcount<1)
+	count = write(fd, wbuf, strlen(wbuf));
+	if(count<1)
 	{
 		printf("file write error!!\n");
 		return -1;
 	}
 	
-
+	
+	lseek(fd, 7, SEEK_SET);//커서 위치를 파일의 시작점 기준으로 offset 0으로 변경
+	memset(rbuf,0,BUFSIZE);//rbuf배열을 0으로 초기화
+	count = read(fd,rbuf,BUFSIZE);
+	if(count<1)
+	{
+		printf("file read error!!\n");
+		return -1;
+	}
+	printf("%s\n",rbuf);
 	close(fd);
 }
