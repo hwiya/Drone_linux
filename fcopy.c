@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv)
 {
-	int count;
+	int count, temp;
 	FILE *in, *out;
 	char buf[BUFSIZ];
 
@@ -16,6 +16,8 @@ int main(int argc, char **argv)
 		perror(argv[1]);
 		return -1;
 	}
+	temp = in->_fileno;
+	printf("fd=%d\n",temp);
 	if((out = fopen(argv[2], "w"))==NULL)//대상파일 열기
 	{
 		perror(argv[2]);
