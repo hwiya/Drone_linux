@@ -15,7 +15,7 @@ int main()
 	int status;
 
 	memset(buffer, '\0', sizeof(buffer));
-
+	
 	if(pipe(file_pipes) == 0)
 	{
 		fork_result = fork();
