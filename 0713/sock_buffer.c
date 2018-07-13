@@ -26,12 +26,28 @@ int main(int argc, char *argv[])
 	state = getsockopt(tcp_sock, SOL_SOCKET, SO_SNDBUF, (void*)&snd_buf, &optlen);
 	if(state)
 	{	
-		error_handling("getsockopt() rnd_buf error");
+		error_handling("getsockopt() snd_buf error");
 	}
 	printf("Socket output buffer size : %d\n", snd_buf);
-	
+
+	//setsockopt()수행 snf_buf를 2배로 설정	
+	snd_buf = (snd_buf << 1);
+	state = setsockopt(tcp_sock, SOL_SOCKET, SO_SNDBUF, (void*)&snd_buf, optlen);
+	if(state)
+	{
+		error_handling("setsockopt() snd_buf error");
+	}
+	//setsockopt()가 정상적으로 수행되었는지 확인하기 위해
+        state = getsockopt(tcp_sock, SOL_SOCKET, SO_SNDBUF, (void*)&snd_buf, &optlen);
+        if(state)
+        {
+                error_handling("getsockopt() snd_buf error");
+        }
+        printf("Socket output buffer size : %d\n", snd_buf);
+
+
+
 	// TCP read : rcv_buf
-	
 	optlen = sizeof(rcv_buf);
 
         state = getsockopt(tcp_sock, SOL_SOCKET, SO_RCVBUF, (void*)&rcv_buf, &optlen);
