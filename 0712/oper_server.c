@@ -14,7 +14,8 @@ int main(int argc, char **argv)
 	int clnt_sock;
 	int p;
 	int str_len;
-	int end;
+	int result;
+	int i;
 
 	struct sockaddr_in serv_addr;
 	struct sockaddr_in clnt_addr;
@@ -74,9 +75,35 @@ int main(int argc, char **argv)
 
 	if(p == '+')
 	{
-		for(
-
-
+		result = Cal.operand[0];
+		for(i=1;i<Cal.operandCount;i++)
+		{
+			result = result + Cal.operand[i];
+		}
+		printf("operand result(+) : %d\n", result);
+	}
+	else if(p == '-')
+	{
+		result = Cal.operand[0];
+		for(i=1;i<Cal.operandCount;i++)
+		{
+			result = result - Cal.operand[i];
+		}
+		printf("operand result(-) : %d\n", result);
+	}
+	else if(p == '*')
+	{
+		result = Cal.operand[0];
+		for(i=1;i<Cal.operandCount;i++)
+		{
+			result = result * Cal.operand[i];
+		}
+		printf("operand result(*) : %d\n", result);
+	}
+	else
+	{
+		printf("operation error\n");
+	}
 
 	close(clnt_sock);
 	close(serv_sock);
