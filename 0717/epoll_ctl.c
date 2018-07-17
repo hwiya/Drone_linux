@@ -6,7 +6,7 @@
 #include<sys/socket.h>
 #include<sys/epoll.h>
 
-#define BUFSIZE 100
+#define BUFSIZE 4
 #define EPOLL_SIZE 50
 
 #define DEBUG
@@ -30,6 +30,7 @@ int main(int argc, char **argv)
 	struct epoll_event *ep_events;
 	struct epoll_event event;
 	int epfd, event_cnt;
+	int count;
 
 	if(argc != 2)
 	{
@@ -77,11 +78,15 @@ int main(int argc, char **argv)
 	event.events = EPOLLIN;
 	event.data.fd = serv_sock;
 	epoll_ctl(epfd, EPOLL_CTL_ADD, serv_sock, &event);
-
+	
+	count = 0;
 	while(1)
 	{
 		//epoll : 3. epoll_wait()
 		event_cnt = epoll_wait(epfd, ep_events, EPOLL_SIZE, -1);
+#ifdef DEBUG
+		printf("count = %d\n"	, count++);
+#endif
 		//epoll_wait() 함수 호출 에러 발생시
 		if(event_cnt == -1)
 		{
